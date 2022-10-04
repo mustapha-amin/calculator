@@ -65,7 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Parser p = Parser();
           Expression exp = p.parse(expr);
           ContextModel cm = ContextModel();
-          res = "${exp.evaluate(EvaluationType.REAL, cm)}";
+          String result = "${exp.evaluate(EvaluationType.REAL, cm)}";
+          if (result.endsWith('.0')) {
+            res = result.substring(0, result.length - 2);
+          } else {
+            res = result;
+          }
         } catch (e) {
           res = 'Error';
         }
@@ -158,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     res,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: resFontSize,
+                      fontSize: res.characters.length < 10 ? resFontSize : 20,
                     ),
                   ),
                 ),
